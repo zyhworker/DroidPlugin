@@ -1,16 +1,18 @@
 Droid Plugin
 ======
 
-[中文文档](https://github.com/Qihoo360/DroidPlugin/blob/master/readme_cn.md "中文文档")
+[中文文档](readme_cn.md "中文文档")
 
-DroidPlugin is a new **Plugin Framework** developed and maintained by the Android app-store team at Qihoo 360 (NYSE:QIHU).
+[Fllow me at github](https://github.com/cmzy)
+
+DroidPlugin is a new **Plugin Framework** developed and maintained by Andy Zhang( [Fllow me at github](https://github.com/cmzy) ).
 It enables the host app run any third-party apk without installation, modification and repackage, which benefit a lot for collaborative development on Android.
 
 -------
 
 
 
-##Problems to be solved:
+## Problems to be solved:
     
  1. Unable to send `Notification` with custom Resources，eg：
  
@@ -22,11 +24,9 @@ It enables the host app run any third-party apk without installation, modificati
  2. Unable to define specified `Intent Filter` for the plugged app's `Service`、`Activity`、`BroadcastReceiver`
  and `ContentProvider`. So the plugged app is invisible for the outside system and app.
 
- 3. Unable to support all `LaunchMode` of `Activity`, has problems with Activity stack management. `Activity`'s `onNewIntent` method may not be called (This is a bug, will be fixed in the future).
-
  3. Lack of `Hook` to the `Native` layer, thus apk (e.g. a majority of game apps) with `native` code cannot be loaded as plugin.
     
-##Features：
+## Features：
   1. Compatible to Android 2.3 and later versions
   2. Given its .apk file, the plugged app could be run either independently or as plugin of the host, **NO** source code needed.
   3. Unnecessary to register the plugged app's `Service`、`Activity`、`BroadcastReceiver`、`ContentProvider` in the host.
@@ -39,9 +39,9 @@ It enables the host app run any third-party apk without installation, modificati
   10. Static broadcast of plugged app will be treated as dynamic, thus the static broadcasting will never be trigger if
   the plugged app are not activated.
     
-##Usage：
+## Usage：
 
-####Integrate with the host apps
+#### Integrate with the host apps
 
 It is very simple integrate Droid Plugin to your proejct：
 
@@ -59,33 +59,18 @@ It is very simple integrate Droid Plugin to your proejct：
 		@Override
 		public void onCreate() {
 			super.onCreate();
-			PluginHelper.getInstance().applicationOnCreate(getBaseContext()); //must behind super.onCreate()
+			PluginHelper.getInstance().applicationOnCreate(getBaseContext()); //must be after super.onCreate()
 		}
         
 		@Override
 		protected void attachBaseContext(Context base) {
 			PluginHelper.getInstance().applicationAttachBaseContext(base);
+            super.attachBaseContext(base);
 		}
 
-4.  **All**  `provider`'s `authorities` value in DroidPlugin's `Libraries\DroidPlugin\AndroidManifest.xml`
- default to be `com.morgoo.droidplugin_stub_P00`, e.g. :
+4. Modify the `authorityName` value in `Libraries\DroidPlugin\build.gradle` (suggested use your package name)
 
-		<provider
-				android:name="com.morgoo.droidplugin.stub.ContentProviderStub$StubP00"
-				android:authorities="com.morgoo.droidplugin_stub_P00"
-				android:exported="false"
-				android:label="@string/stub_name_povider" />
-
-	You'd better change it to avoid conflict with other instances, e.g.:
-		
-		<provider
-				android:name="com.morgoo.droidplugin.stub.ContentProviderStub$StubP00"
-				android:authorities="com.example.droidplugin_stub_P00"
-				android:exported="false"
-				android:label="@string/stub_name_povider" />
-
-
-####Install、Uninstall or Upgrade the plugged app：
+#### Install、Uninstall or Upgrade the plugged app：
 
 1. **Install/Upgrade**, use this method：
  
@@ -105,10 +90,15 @@ It is very simple integrate Droid Plugin to your proejct：
 3. **Activate**
 
     Just use android's API, same for communication between components.
-
+	
+## FAQ
+	
+ [FAQ](https://github.com/DroidPluginTeam/DroidPlugin/wiki/FAQ "FAQ")
+	
 ## Remark：
 
 Please feel free to [report bugs](https://github.com/Qihoo360/DroidPlugin/issues) or ask for help via email.
+QQ Group:318901026
 
 ##Who is using Droid Plugin?
 	
